@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <div class="container">
+    <a href="{{route('category.create')}}" class="btn btn-success">Create</a>
     <table class="table table-striped">
         <thead>
           <tr>

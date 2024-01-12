@@ -24,3 +24,9 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::get('/categories',[CategoryController::class, 'index'])->name('categories');
 
+Route::get('/category/create',[CategoryController::class, 'create'])->name('category.create');
+
+Route::post('/category/store', [CategoryController::class, 'store'])->name('category.store');
+
+
+// http://127.0.0.1:8000/category/create
