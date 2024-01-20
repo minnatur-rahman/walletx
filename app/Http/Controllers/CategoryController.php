@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use PhpParser\Node\Stmt\TryCatch;
 
 class CategoryController extends Controller
 {
@@ -12,7 +16,8 @@ class CategoryController extends Controller
     }
 
     public function index(){
-        return view('category.index');
+        $categories = Category::orderBy('rank')->get();
+        return view('category.index', compact('categories'));
     }
 
     public function create(){
@@ -29,5 +34,17 @@ class CategoryController extends Controller
             'rank.required' => 'rank is required',
             'description.required' => 'description is required'
         ]);
+        try{
+            Category::create([
+                'user_id' => Auth::user()->id,
+                'name' => $request->name,
+                'description' => $request->description,
+                'rank' => $request->rank
+            ]);
+            return redirect(route('categories'))->with('success', 'Category create success');
+
+        }catch(Exception $e){
+            return back()->with('error', 'Category create error');
+        }
     }
 }
